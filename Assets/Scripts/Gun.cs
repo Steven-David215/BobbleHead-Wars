@@ -60,6 +60,12 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentTime += Time.deltaTime;
+        if (currentTime > upgradeTime && isUpgraded == true)
+        {
+            isUpgraded = false;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (!IsInvoking("fireBullet"))
