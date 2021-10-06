@@ -1048,6 +1048,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4096
+  bodyAnimator: {fileID: 2112448194}
 --- !u!143 &1431638321
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1761,6 +1762,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 9075b8c6238b8074ab40c1e7bb86fd4a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 1db3b138098e2184da93d9a63496e325, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9075b8c6238b8074ab40c1e7bb86fd4a, type: 3}
 --- !u!4 &1976155268 stripped
@@ -1887,6 +1892,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!95 &2112448194 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 9075b8c6238b8074ab40c1e7bb86fd4a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1865030374}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2142841237
 GameObject:
   m_ObjectHideFlags: 0
