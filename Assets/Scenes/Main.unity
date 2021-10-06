@@ -2116,6 +2116,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3006811160510397822, guid: 84c256c6c288c064bbcf3bbf8876de73,
     type: 3}
   launchPosition: {fileID: 1002521846}
+  isUpgraded: 0
+  upgradeTime: 10
 --- !u!4 &2112448192 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400006, guid: 9075b8c6238b8074ab40c1e7bb86fd4a,
