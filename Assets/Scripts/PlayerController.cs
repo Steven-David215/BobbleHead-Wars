@@ -10,13 +10,15 @@ public class PlayerController : MonoBehaviour
     public float timeBetweenHits = 2.5f;
     public float moveSpeed = 50.0f;
     public LayerMask layerMask;
-    private bool isHit = false;
+    public Animator bodyAnimator;
+
     private bool isDead = false;
+    private bool isHit = false;
     private float timeSinceHit = 0;
     private int hitNumber = -1;
     private Vector3 currentLookTarget = Vector3.zero;
     private CharacterController characterController;
-    public Animator bodyAnimator;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +28,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
+            0, Input.GetAxis("Vertical"));
+        characterController.SimpleMove(moveDirection * moveSpeed);
+
         if (isHit)
         {
             timeSinceHit += Time.deltaTime;
@@ -35,12 +42,8 @@ public class PlayerController : MonoBehaviour
                 timeSinceHit = 0;
             }
         }
-
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
-            0, Input.GetAxis("Vertical"));
-        characterController.SimpleMove(moveDirection * moveSpeed);
     }
-    
+
     //Called consistently compared to update.
     void FixedUpdate()
     {
