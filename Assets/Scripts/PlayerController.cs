@@ -5,8 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody head;
+    public float[] hitForce;
+    public float timeBetweenHits = 2.5f;
     public float moveSpeed = 50.0f;
     public LayerMask layerMask;
+    private bool isHit = false;
+    private float timeSinceHit = 0;
+    private int hitNumber = -1;
     private Vector3 currentLookTarget = Vector3.zero;
     private CharacterController characterController;
     public Animator bodyAnimator;
@@ -22,6 +27,15 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
             0, Input.GetAxis("Vertical"));
         characterController.SimpleMove(moveDirection * moveSpeed);
+        if (isHit)
+        {
+            timeSinceHit += Time.deltaTime;
+            if(timeSinceHit > timeBetweenHits)
+            {
+                isHit = false;
+                timeSinceHit = 0;
+            }
+        }
     }
     
     //Called consistently compared to update.
@@ -55,6 +69,30 @@ public class PlayerController : MonoBehaviour
                 transform.position);
             transform.rotation = Quaternion.Lerp(transform.rotation,
                 rotation, Time.deltaTime * 10.0f);
+        }
+    }
+    void onTriggerEnter(Collider other)
+    {
+        Alien alien = other.gameObject.GetComponent<Alien>();
+        if (alien != null)
+        {
+            if (!isHit)
+            {
+                hitNumber += 1;
+                CameraShake cameraShake = Camera.main.GetComponent<CameraShake>();
+                if (hitNumber < hitForce.Length)
+                {
+                    cameraShake.intensity = hitForce[hitNumber];
+                    cameraShake.Shake();
+                }
+                else
+                {
+
+                }
+                isHit = true;
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.hurt);
+            }
+            alien.Die();
         }
     }
 }
