@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody head;
+    public Rigidbody marineBody;
     public float[] hitForce;
     public float timeBetweenHits = 2.5f;
     public float moveSpeed = 50.0f;
     public LayerMask layerMask;
     private bool isHit = false;
+    private bool isDead = false;
     private float timeSinceHit = 0;
     private int hitNumber = -1;
     private Vector3 currentLookTarget = Vector3.zero;
@@ -24,18 +26,19 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
-            0, Input.GetAxis("Vertical"));
-        characterController.SimpleMove(moveDirection * moveSpeed);
         if (isHit)
         {
             timeSinceHit += Time.deltaTime;
-            if(timeSinceHit > timeBetweenHits)
+            if (timeSinceHit > timeBetweenHits)
             {
                 isHit = false;
                 timeSinceHit = 0;
             }
         }
+
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
+            0, Input.GetAxis("Vertical"));
+        characterController.SimpleMove(moveDirection * moveSpeed);
     }
     
     //Called consistently compared to update.
@@ -87,12 +90,27 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-
+                    Die();
                 }
                 isHit = true;
                 SoundManager.Instance.PlayOneShot(SoundManager.Instance.hurt);
             }
             alien.Die();
         }
+    }
+    public void Die()
+    {
+        bodyAnimator.SetBool("IsMoving", false);
+        marineBody.transform.parent = null;
+        marineBody.isKinematic = false;
+        marineBody.useGravity = true;
+        marineBody.gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        marineBody.gameObject.GetComponent<Gun>().enabled = false;
+
+        Destroy(head.gameObject.GetComponent<HingeJoint>());
+        head.transform.parent = null;
+        head.useGravity = true;
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.marineDeath);
+        Destroy(gameObject);
     }
 }

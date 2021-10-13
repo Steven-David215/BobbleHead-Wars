@@ -1059,10 +1059,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 1508525713}
+  marineBody: {fileID: 2112448193}
   hitForce:
   - 0.1
   - 0.2
   - 0.3
+  timeBetweenHits: 2.5
   moveSpeed: 50
   layerMask:
     serializedVersion: 2
@@ -1965,12 +1967,12 @@ MonoBehaviour:
   alien: {fileID: 384751992898202381, guid: b9e1c43488508ea4a9508027607ac2e5, type: 3}
   upgradePrefab: {fileID: 105092, guid: 941d6224549424c91b1cf112b44ec0cb, type: 3}
   gun: {fileID: 2112448191}
-  maxAliensOnScreen: 10
-  totalAliens: 10
+  maxAliensOnScreen: 20
+  totalAliens: 50
   upgradeMaxTimeSpawn: 7.5
   minSpawnTime: 0
   maxSpawnTime: 3
-  aliensPerSpawn: 1
+  aliensPerSpawn: 5
 --- !u!4 &1731580964
 Transform:
   m_ObjectHideFlags: 0
@@ -2267,6 +2269,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &2112448196
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112448190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  m_Radius: 2.08
+  m_Height: 0.24
+  m_Direction: 1
+  m_Center: {x: -1.61, y: 3.58, z: 0}
 --- !u!1 &2142841237
 GameObject:
   m_ObjectHideFlags: 0
