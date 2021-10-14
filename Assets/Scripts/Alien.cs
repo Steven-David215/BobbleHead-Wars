@@ -45,6 +45,15 @@ public class Alien : MonoBehaviour
         }
     }
 
+    public DeathParticles GetDeathParticles()
+    {
+        if (deathParticles == null)
+        {
+            deathParticles = GetComponentInChildren<DeathParticles>();
+        }
+        return deathParticles;
+    }
+
     public void Die()
     {
         isAlive = false;
@@ -61,20 +70,9 @@ public class Alien : MonoBehaviour
 
         if(deathParticles)
         {
-            deathParticles = GetComponentInChildren<DeathParticles>();
+            deathParticles.transform.parent = null;
             deathParticles.Activate();
         }
-
         Destroy(gameObject);
-
     }
-    public DeathParticles GetDeathParticles()
-    {
-        if (deathParticles == null)
-        {
-            deathParticles = GetComponentInChildren<DeathParticles>();
-        }
-        return deathParticles;
-    }
-
 }
