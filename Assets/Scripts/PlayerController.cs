@@ -18,17 +18,22 @@ public class PlayerController : MonoBehaviour
     private int hitNumber = -1;
     private Vector3 currentLookTarget = Vector3.zero;
     private CharacterController characterController;
+    private DeathParticles deathParticles;
    
     // Start is called before the first frame update
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        deathParticles = gameObject.GetComponentInChildren<DeathParticles>();
     }
 
     // Update is called once per frame
     void Update()
     {
-      
+        Vector3 pos = transform.position;
+        pos.x += moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
+        pos.z += moveSpeed * Input.GetAxis("Vertical") * Time.deltaTime;
+        transform.position = pos;
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
             0, Input.GetAxis("Vertical"));
         characterController.SimpleMove(moveDirection * moveSpeed);
@@ -69,13 +74,13 @@ public class PlayerController : MonoBehaviour
             {
                 currentLookTarget = hit.point;
             }
-            Vector3 targetPosition = new Vector3(hit.point.x,
-                transform.position.y, hit.point.z);
-            Quaternion rotation = Quaternion.LookRotation(targetPosition -
-                transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation,
-                rotation, Time.deltaTime * 10.0f);
         }
+        Vector3 targetPosition = new Vector3(hit.point.x,
+                transform.position.y, hit.point.z);
+        Quaternion rotation = Quaternion.LookRotation(targetPosition -
+            transform.position);
+        transform.rotation = Quaternion.Lerp(transform.rotation,
+            rotation, Time.deltaTime * 10.0f);
     }
     void onTriggerEnter(Collider other)
     {
@@ -114,6 +119,7 @@ public class PlayerController : MonoBehaviour
         head.transform.parent = null;
         head.useGravity = true;
         SoundManager.Instance.PlayOneShot(SoundManager.Instance.marineDeath);
+        deathParticles.Activate();
         Destroy(gameObject);
     }
 }

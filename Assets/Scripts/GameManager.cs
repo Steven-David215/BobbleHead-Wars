@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject deathFloor;
     public GameObject player;
     public GameObject[] spawnPoints;
     public GameObject alien;
@@ -59,51 +60,51 @@ public class GameManager : MonoBehaviour
         if (currentSpawnTime > generatedSpawnTime)
         {
             currentSpawnTime = 0;
-        }
+            generatedSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
 
-        generatedSpawnTime = Random.Range(minSpawnTime, maxSpawnTime);
-
-        if (aliensPerSpawn > 0 && aliensOnScreen < totalAliens)
-        {
-            List<int> previousSpawnLocations = new List<int>();
-
-            if (aliensPerSpawn > spawnPoints.Length)
+            if (aliensPerSpawn > 0 && aliensOnScreen < totalAliens)
             {
-                aliensPerSpawn = spawnPoints.Length - 1;
-            }
-            aliensPerSpawn = (aliensPerSpawn > totalAliens) ?
-            aliensPerSpawn - totalAliens : aliensPerSpawn;
+                List<int> previousSpawnLocations = new List<int>();
 
-            for (int i = 0; i < aliensPerSpawn; i++)
-            {
-                if (aliensOnScreen < maxAliensOnScreen)
+                if (aliensPerSpawn > spawnPoints.Length)
                 {
-                    aliensOnScreen += 1;
-                    // 1
-                    int spawnPoint = -1;
-                    // 2
-                    while (spawnPoint == -1)
-                    {
-                        // 3
-                        int randomNumber = Random.Range(0, spawnPoints.Length - 1);
-                        // 4
-                        if (!previousSpawnLocations.Contains(randomNumber))
-                        {
-                            previousSpawnLocations.Add(randomNumber);
-                            spawnPoint = randomNumber;
-                        }
-                    }
-                    GameObject spawnLocation = spawnPoints[spawnPoint];
-                    GameObject newAlien = Instantiate(alien) as GameObject;
-                    newAlien.transform.position = spawnLocation.transform.position;
-                    
-                    Alien alienScript = newAlien.GetComponent<Alien>();
-                    alienScript.target = player.transform;
+                    aliensPerSpawn = spawnPoints.Length - 1;
+                }
+                aliensPerSpawn = (aliensPerSpawn > totalAliens) ?
+                aliensPerSpawn - totalAliens : aliensPerSpawn;
 
-                    Vector3 targetRotation = new Vector3(player.transform.position.x,
- newAlien.transform.position.y, player.transform.position.z);
-                    newAlien.transform.LookAt(targetRotation);
-                    alienScript.OnDestroy.AddListener(AlienDestroyed);
+                for (int i = 0; i < aliensPerSpawn; i++)
+                {
+                    if (aliensOnScreen < maxAliensOnScreen)
+                    {
+                        aliensOnScreen += 1;
+                        // 1
+                        int spawnPoint = -1;
+                        // 2
+                        while (spawnPoint == -1)
+                        {
+                            // 3
+                            int randomNumber = Random.Range(0, spawnPoints.Length - 1);
+                            // 4
+                            if (!previousSpawnLocations.Contains(randomNumber))
+                            {
+                                previousSpawnLocations.Add(randomNumber);
+                                spawnPoint = randomNumber;
+                            }
+                        }
+                        GameObject spawnLocation = spawnPoints[spawnPoint];
+                        GameObject newAlien = Instantiate(alien) as GameObject;
+                        newAlien.transform.position = spawnLocation.transform.position;
+
+                        Alien alienScript = newAlien.GetComponent<Alien>();
+                        alienScript.target = player.transform;
+
+                        Vector3 targetRotation = new Vector3(player.transform.position.x,
+                        newAlien.transform.position.y, player.transform.position.z);
+                        newAlien.transform.LookAt(targetRotation);
+                        alienScript.OnDestroy.AddListener(AlienDestroyed);
+                        alienScript.GetDeathParticles().SetDeathFloor(deathFloor);
+                    }
                 }
             }
         }
