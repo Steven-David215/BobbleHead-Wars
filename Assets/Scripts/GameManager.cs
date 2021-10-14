@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public Animator arenaAnimator;
     public GameObject deathFloor;
     public GameObject player;
     public GameObject[] spawnPoints;
@@ -113,5 +114,14 @@ public class GameManager : MonoBehaviour
     {
         aliensOnScreen -= 1;
         totalAliens -= 1;
+        if (totalAliens == 0)
+        {
+            Invoke("endGame", 2.0f); // haha MCU reference.
+        }
+    }
+    private void endGame()
+    {
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.elevatorArrived);
+        arenaAnimator.SetTrigger("PlayerWon");
     }
 }

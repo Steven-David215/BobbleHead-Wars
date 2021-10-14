@@ -30,4 +30,8 @@ public class Arena : MonoBehaviour
         SoundManager.Instance.PlayOneShot(SoundManager.Instance.elevatorArrived);
         arenaAnimator.SetBool("OnElevator", true);
     }
+    public void ActivatePlatform()
+    {
+        sphereCollider.enabled = true;
+    }
 }
