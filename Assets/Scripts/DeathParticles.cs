@@ -35,6 +35,5 @@ public class DeathParticles : MonoBehaviour
             deathParticles = GetComponent<ParticleSystem>();
         }
         deathParticles.collision.SetPlane(0, deathFloor.transform);
-
     }
 }

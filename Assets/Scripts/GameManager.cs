@@ -28,8 +28,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        actualUpgradeTime = Random.Range(upgradeMaxTimeSpawn - 3.0f,
-            upgradeMaxTimeSpawn);
+        actualUpgradeTime = Random.Range(upgradeMaxTimeSpawn - 3.0f, upgradeMaxTimeSpawn);
         actualUpgradeTime = Mathf.Abs(actualUpgradeTime);
     }
 
@@ -41,6 +40,8 @@ public class GameManager : MonoBehaviour
             return;
         }
         currentUpgradeTime += Time.deltaTime;
+        currentSpawnTime += Time.deltaTime;
+
         if (currentUpgradeTime > actualUpgradeTime)
         {
             if(!spawnedUpgrade)
@@ -56,7 +57,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        currentSpawnTime += Time.deltaTime;
 
         if (currentSpawnTime > generatedSpawnTime)
         {
@@ -71,8 +71,8 @@ public class GameManager : MonoBehaviour
                 {
                     aliensPerSpawn = spawnPoints.Length - 1;
                 }
-                aliensPerSpawn = (aliensPerSpawn > totalAliens) ?
-                aliensPerSpawn - totalAliens : aliensPerSpawn;
+
+                aliensPerSpawn = (aliensPerSpawn > totalAliens) ? aliensPerSpawn - totalAliens : aliensPerSpawn;
 
                 for (int i = 0; i < aliensPerSpawn; i++)
                 {

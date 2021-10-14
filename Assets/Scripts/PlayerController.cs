@@ -61,26 +61,22 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            bodyAnimator.SetBool("IsMoving", true);
             head.AddForce(transform.right * 150, ForceMode.Acceleration);
+            bodyAnimator.SetBool("IsMoving", true);
         }
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(ray.origin, ray.direction * 1000, Color.green);
-        if (Physics.Raycast(ray, out hit, 1000, layerMask,
-            QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(ray, out hit, 1000, layerMask, QueryTriggerInteraction.Ignore))
         {
             if (hit.point != currentLookTarget)
             {
                 currentLookTarget = hit.point;
             }
         }
-        Vector3 targetPosition = new Vector3(hit.point.x,
-                transform.position.y, hit.point.z);
-        Quaternion rotation = Quaternion.LookRotation(targetPosition -
-            transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation,
-            rotation, Time.deltaTime * 10.0f);
+        Vector3 targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+        Quaternion rotation = Quaternion.LookRotation(targetPosition - transform.position);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10.0f);
     }
     void onTriggerEnter(Collider other)
     {
@@ -106,6 +102,7 @@ public class PlayerController : MonoBehaviour
             alien.Die();
         }
     }
+
     public void Die()
     {
         bodyAnimator.SetBool("IsMoving", false);
