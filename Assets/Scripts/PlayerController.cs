@@ -30,10 +30,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 pos = transform.position;
-        pos.x += moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
-        pos.z += moveSpeed * Input.GetAxis("Vertical") * Time.deltaTime;
-        transform.position = pos;
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"),
             0, Input.GetAxis("Vertical"));
         characterController.SimpleMove(moveDirection * moveSpeed);
@@ -56,8 +52,7 @@ public class PlayerController : MonoBehaviour
             0, Input.GetAxis("Vertical"));
         if (moveDirection == Vector3.zero)
         {
-            bodyAnimator.SetBool("IsMoving", false);
-            
+            bodyAnimator.SetBool("IsMoving", false);  
         }
         else
         {
@@ -78,7 +73,8 @@ public class PlayerController : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(targetPosition - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 10.0f);
     }
-    void onTriggerEnter(Collider other)
+
+    void OnTriggerEnter(Collider other)
     {
         Alien alien = other.gameObject.GetComponent<Alien>();
         if (alien != null)

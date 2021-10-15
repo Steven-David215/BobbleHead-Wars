@@ -2425,7 +2425,7 @@ MonoBehaviour:
   upgradePrefab: {fileID: 105092, guid: 941d6224549424c91b1cf112b44ec0cb, type: 3}
   gun: {fileID: 2112448191}
   maxAliensOnScreen: 20
-  totalAliens: 50
+  totalAliens: 30
   upgradeMaxTimeSpawn: 7.5
   minSpawnTime: 0
   maxSpawnTime: 3
